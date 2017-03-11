@@ -33,10 +33,12 @@
 
 @implementation RadioButton
 
+#pragma mark - init
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
+        [self commonInit];
 		if(![[self allTargets] containsObject:self]) {
 			[super addTarget:self action:@selector(onTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
 		}
@@ -46,9 +48,26 @@
 
 -(void) awakeFromNib
 {
+    [self commonInit];
 	if(![[self allTargets] containsObject:self]) {
 		[super addTarget:self action:@selector(onTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
 	}
+}
+
+
+#pragma mark - overridden methods
+
+-(CGSize)sizeThatFits:(CGSize)size
+{
+    size = [super sizeThatFits:size];
+    return [self correctSize:size];
+}
+
+- (CGSize) intrinsicContentSize
+{
+    CGSize s = [super intrinsicContentSize];
+    
+    return [self correctSize:s];
 }
 
 -(void) addTarget:(id)target action:(SEL)action forControlEvents:(UIControlEvents)controlEvents
@@ -58,6 +77,22 @@
 		[super addTarget:self action:@selector(onTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
 	}
 	[super addTarget:target action:action forControlEvents:controlEvents];
+}
+
+#pragma mark - Private Methods
+
+-(void)commonInit
+{
+    [self setImage:[UIImage imageNamed:@"unchecked.png"] forState:UIControlStateNormal];
+    [self setImage:[UIImage imageNamed:@"checked.png"] forState:UIControlStateSelected];
+    self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    self.titleEdgeInsets = UIEdgeInsetsMake(0, 6, 0, 0);
+}
+
+-(CGSize)correctSize:(CGSize)s
+{
+    return CGSizeMake(s.width + self.titleEdgeInsets.left + self.titleEdgeInsets.right,
+                      s.height + self.titleEdgeInsets.top + self.titleEdgeInsets.bottom);
 }
 
 -(void) onTouchUpInside
@@ -192,6 +227,7 @@
 	}
 }
 
+#pragma mark - dealloc
 - (void)dealloc
 {
 	for(NSValue* v in _sharedLinks) {
