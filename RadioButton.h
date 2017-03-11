@@ -25,10 +25,24 @@
 
 #import <UIKit/UIKit.h>
 
+@class RadioButton;
+
+@protocol RadioButtonDelegate <NSObject>
+
+@required
+- (void)didSelectRadioButton:(RadioButton*)button;
+
+@optional
+- (void)didDeSelectRadioButton:(RadioButton*)button;
+
+@end
+
 @interface RadioButton : UIButton
 
 // Outlet collection of links to other buttons in the group.
 @property (nonatomic, strong) IBOutletCollection(RadioButton) NSArray* groupButtons;
+
+@property (weak) id<RadioButtonDelegate> radioButtonDelegate;
 
 // Currently selected radio button in the group.
 // If there are multiple buttons selected then it returns the first one.

@@ -87,6 +87,32 @@
     [self setImage:[UIImage imageNamed:@"checked.png"] forState:UIControlStateSelected];
     self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     self.titleEdgeInsets = UIEdgeInsetsMake(0, 6, 0, 0);
+    
+    [self addTarget:self action:@selector(onRadioButtonValueChanged:) forControlEvents:UIControlEventValueChanged];
+}
+
+
+-(void) onRadioButtonValueChanged:(RadioButton*)sender
+{
+    NSArray<RadioButtonDelegate>* allLinksDelegate = [[_sharedLinks valueForKey:@"nonretainedObjectValue"] valueForKey:@"radioButtonDelegate"];
+    if (allLinksDelegate.count > 0)
+    {
+        id<RadioButtonDelegate> delegate = [allLinksDelegate firstObject];
+        if (sender.selected)
+        {
+            if ([delegate respondsToSelector:@selector(didSelectRadioButton:)])
+            {
+                [delegate didSelectRadioButton:sender];
+            }
+        }
+        else
+        {
+            if ([delegate respondsToSelector:@selector(didDeSelectRadioButton:)])
+            {
+                [delegate didDeSelectRadioButton:sender];
+            }
+        }
+    }
 }
 
 -(CGSize)correctSize:(CGSize)s
