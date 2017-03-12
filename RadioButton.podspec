@@ -4,7 +4,7 @@
 Pod::Spec.new do |s|
 
 
-  s.name         = "RadioButton-ios"
+  s.name         = "RadioButton"
   s.version      = @version
   s.summary      = "Lightweight RadioButton class for iOS"
 
