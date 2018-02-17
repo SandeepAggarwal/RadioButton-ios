@@ -83,8 +83,9 @@
 
 -(void)commonInit
 {
-    [self setImage:[UIImage imageNamed:@"unchecked.png"] forState:UIControlStateNormal];
-    [self setImage:[UIImage imageNamed:@"checked.png"] forState:UIControlStateSelected];
+    NSBundle* bundle = [NSBundle bundleForClass:[self class]];
+    [self setImage:[UIImage imageNamed:@"unchecked.png" inBundle:bundle compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
+    [self setImage:[UIImage imageNamed:@"checked.png" inBundle:bundle compatibleWithTraitCollection:nil] forState:UIControlStateSelected];
     self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     self.titleEdgeInsets = UIEdgeInsetsMake(0, 6, 0, 0);
     
